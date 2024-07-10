@@ -7,7 +7,17 @@ class BaseballGame:
 
     def guess(self, guess_number: str):
         self.assert_illegal_value(guess_number)
-        return GameResult(True, 3, 0)
+        if guess_number == self.question:
+            return GameResult(True, 3, 0)
+        else:
+            strikes = 0
+            for i in range(len(self.question)):
+                char = guess_number[i]
+                index = self.question.find(char)
+                if index == i:
+                    strikes += 1
+
+            return GameResult(False, strikes, 0)
 
     def assert_illegal_value(self, guess_number):
         if guess_number is None:

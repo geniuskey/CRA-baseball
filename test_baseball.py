@@ -2,6 +2,7 @@ from unittest import TestCase
 from baseball import BaseballGame
 from game_result import GameResult
 
+
 class TestBaseball(TestCase):
 
     def setUp(self):
@@ -15,6 +16,12 @@ class TestBaseball(TestCase):
         except TypeError:
             pass
 
+    def assert_matched_number(self, result, solved, strike, balls):
+        self.assertIsNotNone(result)
+        self.assertEqual(solved, result.get_solved())
+        self.assertEqual(strike, result.get_strike())
+        self.assertEqual(balls, result.get_balls())
+
     def test_exception_when_invalid_input(self):
         self.assert_illegal_argument(None)
         self.assert_illegal_argument("12")
@@ -22,11 +29,17 @@ class TestBaseball(TestCase):
         self.assert_illegal_argument("12s")
         self.assert_illegal_argument("121")
 
-    def test_game(self):
+    def generate_question(self, question_number):
         self.game.question: str = "123"
-        result: GameResult = self.game.guess("123")
-        self.assertIsNotNone(result)
-        self.assertTrue(result.solved)
-        self.assertEqual(3, result.strikes)
-        self.assertEqual(0, result.balls)
 
+    def test_if_matched(self):
+        self.generate_question("123")
+        self.assert_matched_number(self.game.guess("123"), True, 3, 0)
+
+    def test_if_unmatched(self):
+        self.generate_question("123")
+        self.assert_matched_number(self.game.guess("456"), False, 0, 0)
+
+    def test_if_matched_partially(self):
+        self.generate_question("123")
+        self.assert_matched_number(self.game.guess("120"), False, 2, 0)
