@@ -42,4 +42,9 @@ class TestBaseball(TestCase):
 
     def test_if_matched_partially(self):
         self.generate_question("123")
-        self.assert_matched_number(self.game.guess("120"), False, 2, 0)
+        self.assert_matched_number(
+            self.game.guess("120"), False, 2, 0)
+        self.assert_matched_number(
+            self.game.guess("061"), False, 0, 1)
+        self.assert_matched_number(
+            self.game.guess("136"), False, 1, 1)
