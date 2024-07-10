@@ -1,4 +1,11 @@
 class BaseballGame:
-    def guess(self, param: str):
-        if param is None:
+    def guess(self, guess_number: str):
+        if guess_number is None:
             raise TypeError
+
+        if len(guess_number) != 3:
+            raise TypeError
+
+        for number in guess_number:
+            if not ord('0') <= ord(number) <= ord('9'):
+                raise TypeError
